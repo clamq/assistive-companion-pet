@@ -1,6 +1,7 @@
 import pyautogui
 import os
 import pyttsx3
+import pyperclip
 from google import genai
 from dotenv import load_dotenv
 
@@ -24,6 +25,9 @@ class PetBrain:
         self.tts_engine = pyttsx3.init()
         self.tts_engine.setProperty('rate', 150)  # Slower for accessibility
         
+        # Clipboard tracking
+        self.last_clipboard_content = ""
+        
         # Initialize focus detection if in Focus mode
         self.face_mesh = None
         self.cap = None
@@ -35,6 +39,33 @@ class PetBrain:
             self.face_mesh = mp.solutions.face_mesh.FaceMesh(refine_landmarks=True)
             self.cap = cv2.VideoCapture(0)
             self.last_seen = __import__('time').time()
+
+    def check_clipboard(self):
+        """Check if clipboard content has changed"""
+        try:
+            current_content = pyperclip.paste()
+            if current_content != self.last_clipboard_content and current_content.strip():
+                self.last_clipboard_content = current_content
+                return current_content
+        except:
+            pass
+        return None
+
+    def bionic_reading(self, text):
+        """Apply bionic reading formatting for dyslexia/ADHD
+        Bolds first 1-2 letters of each word for faster reading"""
+        words = text.split()
+        bionic_text = []
+        
+        for word in words:
+            if len(word) <= 2:
+                bionic_text.append(f"**{word}**")
+            else:
+                # Bold first 2 characters
+                bolded = f"**{word[:2]}**{word[2:]}"
+                bionic_text.append(bolded)
+        
+        return " ".join(bionic_text)
 
     def is_focusing(self):
         """Check if user is focused (Focus mode only)"""
@@ -62,6 +93,41 @@ class PetBrain:
         except Exception as e:
             return f"Error connecting to AI: {e}"
 
+    def analyze_clipboard_text(self, text, intent="simplify"):
+        """Analyze copied text with specific intent
+        intent options: 'simplify', 'translate', 'bionic', 'explain'
+        """
+        try:
+            if intent == "simplify":
+                prompt = "Simplify this text for a student with ADHD. Be concise and clear."
+            elif intent == "translate":
+                prompt = "Translate this to Spanish and keep it concise."
+            elif intent == "bionic":
+                return self.bionic_reading(text)
+            elif intent == "explain":
+                prompt = "Explain the key concepts in this text clearly and simply."
+            else:
+                prompt = "Analyze this text and provide helpful information."
+            
+            response = self.client.models.generate_content(
+                model="gemini-2.0-flash",
+                contents=prompt + "\n\nText to analyze:\n" + text
+            )
+            return response.text
+        except Exception as e:
+            return f"Error: {e}"
+
+    def explain_image(self, image_path, question="What is this?"):
+        """Explain a specific image or diagram"""
+        try:
+            response = self.client.models.generate_content(
+                model="gemini-2.0-flash",
+                contents=[question, image_path]
+            )
+            return response.text
+        except Exception as e:
+            return f"Error analyzing image: {e}"
+
     def text_to_speech(self, text):
         """Read text aloud for accessibility (helpful for ESL learners)"""
         try:
@@ -88,4 +154,3 @@ class PetBrain:
         self.tts_engine.stop()
         if self.cap:
             self.cap.release()
-
