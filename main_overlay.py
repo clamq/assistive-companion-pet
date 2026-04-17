@@ -110,12 +110,10 @@ def main():
         # Movement logic
         if abs(current_destination[0] - pet.x) > pet.size or abs(current_destination[1] - pet.y) > pet.size:
             pet.take_step(current_destination[0], current_destination[1])
-
-
         
         # Draw pet overlay
         ui.draw(pet)
-        
+
         clock.tick(30)  # 30 FPS
     
     brain.stop()

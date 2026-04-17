@@ -117,15 +117,12 @@ class PetUI:
         line_height = 18
         bubble_height = len(lines) * line_height + 15
         bubble_width = max_width + 20
-        bubble_x = x - bubble_width // 2
-        bubble_y = y - bubble_height // 2
+        bubble_x = x
+        bubble_y = y - bubble_height*2
         
         # Bubble rectangle
         pygame.draw.rect(self.screen, (255, 255, 255), (bubble_x, bubble_y, bubble_width, bubble_height), border_radius=10)
         pygame.draw.rect(self.screen, (200, 200, 200), (bubble_x, bubble_y, bubble_width, bubble_height), 2, border_radius=10)
-        
-        # Pointer to pet
-        pygame.draw.polygon(self.screen, (255, 255, 255), [(125, bubble_y + bubble_height), (115, bubble_y + bubble_height + 10), (135, bubble_y + bubble_height + 10)])
         
         # Draw text
         for i, line in enumerate(lines):
