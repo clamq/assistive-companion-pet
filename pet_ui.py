@@ -132,15 +132,15 @@ class PetUI:
             text_surf = self.font_small.render(line, True, (0, 0, 0))
             self.screen.blit(text_surf, (bubble_x + 10, bubble_y + 7 + i * line_height))
 
-    def draw_menu(self):
+    def draw_menu(self, x, y):
         """Draw intent-based menu"""
         if not self.show_menu:
             return
         
         menu_width = 200
         menu_height = len(self.menu_options) * 35 + 20
-        menu_x = 125 - menu_width // 2
-        menu_y = 150
+        menu_x = x - menu_width
+        menu_y = y - menu_height
         
         # Menu background
         pygame.draw.rect(self.screen, (40, 40, 40), (menu_x, menu_y, menu_width, menu_height), border_radius=10)
@@ -203,7 +203,7 @@ class PetUI:
         self.draw_speech_bubble(pet.x, pet.y)
         
         # Draw menu if active
-        self.draw_menu()
+        self.draw_menu(pet.x, pet.y)
         
         # Draw instructions if menu is showing
         if self.show_menu:

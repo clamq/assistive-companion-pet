@@ -55,6 +55,8 @@ def main():
                 if pet.collide(event.pos): # Pet is clicked on
                     pet.held_down = True
                     # Additional left click events
+                    if event.button == 3:
+                        ui.toggle_menu()
 
             if event.type == pygame.MOUSEBUTTONUP:
                 if pet.held_down: # lets the pet go
