@@ -1,4 +1,4 @@
-# 🐾 Aether Assistant - Neuro-Inclusive Learning Pet
+# 🐾 Aether Assistant - Neuro-Inclusive Learning Desktop Pet
 
 A hybrid web + desktop application designed for **students with ADHD, Dyslexia, and Autism**. The app combines a **lightweight desktop pet overlay** with a **rich web dashboard** for a seamless accessibility-first study experience.
 
