@@ -90,7 +90,7 @@ class PetUI:
             return self.menu_options[self.selected_option]
         return None
 
-    def draw_speech_bubble(self):
+    def draw_speech_bubble(self, x, y):
         """Draw AI response speech bubble"""
         if not self.is_speech_bubble_active():
             return
@@ -117,8 +117,8 @@ class PetUI:
         line_height = 18
         bubble_height = len(lines) * line_height + 15
         bubble_width = max_width + 20
-        bubble_x = 125 - bubble_width // 2
-        bubble_y = 40
+        bubble_x = x - bubble_width // 2
+        bubble_y = y - bubble_height // 2
         
         # Bubble rectangle
         pygame.draw.rect(self.screen, (255, 255, 255), (bubble_x, bubble_y, bubble_width, bubble_height), border_radius=10)
@@ -165,7 +165,7 @@ class PetUI:
             text_surf = self.font_small.render(text, True, color)
             self.screen.blit(text_surf, (menu_x + 15, option_y + 8))
 
-    def draw(self, pet: Pet, hat=None):
+    def draw(self, pet: Pet):
         """Main draw function"""
         self.screen.fill(self.trans_color)
         
@@ -200,7 +200,7 @@ class PetUI:
         self.screen.blit(mode_label, (10, 10))
         
         # Draw speech bubble if active
-        self.draw_speech_bubble()
+        self.draw_speech_bubble(pet.x, pet.y)
         
         # Draw menu if active
         self.draw_menu()
