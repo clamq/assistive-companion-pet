@@ -8,6 +8,7 @@ import mediapipe as mp
 import threading
 import time
 import numpy as np
+import sys
 
 app = Flask(__name__)
 CORS(app)
@@ -220,4 +221,5 @@ def get_learning_topics():
         return []
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    port = 5001 if sys.platform == "darwin" else 5000
+    app.run(port=port, debug=True)
