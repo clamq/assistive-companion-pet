@@ -47,6 +47,9 @@
             min-height: 100vh;
             padding: 20px 16px 60px;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
         }
 
         body::before {
@@ -63,7 +66,12 @@
             z-index: 0;
         }
 
-        .container { max-width: 1080px; margin: 0 auto; position: relative; z-index: 1; }
+        .container { 
+            max-width: 1080px; 
+            width: 100%;
+            position: relative; 
+            z-index: 1; 
+        }
 
         /* ─── PIXEL PANEL BASE ─── */
         .sdv-panel {
@@ -148,9 +156,8 @@
 
         /* ─── PIXEL BADGE ─── */
         .pixel-badge {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 6px;
             background: var(--gold);
             border: 3px solid var(--wood-dark);
@@ -160,7 +167,7 @@
             font-size: 0.45em;
             color: var(--wood-dark);
             box-shadow: 3px 3px 0 rgba(0,0,0,0.35);
-            margin: 0 auto 10px;
+            margin-bottom: 10px;
         }
 
         /* ─── NAV TABS ─── */
@@ -839,8 +846,9 @@
     <!-- HEADER -->
     <header style="text-align:center; margin-bottom:22px; animation: pageIn 0.5s ease both;">
         <span class="mascot-wrap">🐾</span>
+        <div class="pixel-badge">✦ AI-Powered Study Companion ✦</div>
         <div class="scroll-banner">
-            <div class="pixel-badge" style="display:block; text-align:center; margin-bottom:10px;">✦ AI-Powered Study Companion ✦</div>            <h1>Aether Assistant</h1>
+            <h1>Aether Assistant</h1>
             <div class="tagline">Let's make studying fun today!</div>
         </div>
     </header>
